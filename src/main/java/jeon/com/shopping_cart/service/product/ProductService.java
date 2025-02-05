@@ -3,8 +3,8 @@ package jeon.com.shopping_cart.service.product;
 import jeon.com.shopping_cart.exception.ProductNotFoundException;
 import jeon.com.shopping_cart.model.Category;
 import jeon.com.shopping_cart.model.Product;
-import jeon.com.shopping_cart.repository.CategoryRepository;
-import jeon.com.shopping_cart.repository.ProductRepository;
+import jeon.com.shopping_cart.repository.ICategoryRepository;
+import jeon.com.shopping_cart.repository.IProductRepository;
 import jeon.com.shopping_cart.request.AddProductRequest;
 import jeon.com.shopping_cart.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
 
-    private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
+    private final IProductRepository productRepository;
+    private final ICategoryRepository categoryRepository;
 
     public Product add(AddProductRequest request)
     {
