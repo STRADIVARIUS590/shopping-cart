@@ -1,6 +1,7 @@
 package jeon.com.shopping_cart.service.product;
 
 import jeon.com.shopping_cart.exception.ProductNotFoundException;
+import jeon.com.shopping_cart.exception.ResourceNotFoundException;
 import jeon.com.shopping_cart.model.Category;
 import jeon.com.shopping_cart.model.Product;
 import jeon.com.shopping_cart.repository.ICategoryRepository;
@@ -56,14 +57,14 @@ public class ProductService implements IProductService {
     public Product find(int id) {
         return this.productRepository
                 .findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Not found"));
     }
 
     @Override
     public void delete(int id) {
         this.productRepository.findById(id)
                 .ifPresentOrElse(productRepository::delete, () ->
-                {throw new ProductNotFoundException("No encontrado");});
+                {throw new ResourceNotFoundException("No encontrado");});
         ;
     }
 
@@ -72,7 +73,7 @@ public class ProductService implements IProductService {
         return this.productRepository.findById(id)
                 .map(existing_product -> this.updateProduct(existing_product, request))
                 .map(product -> this.productRepository.save(product))
-                .orElseThrow(() -> new ProductNotFoundException("No encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("No encontrado"));
 
     }
 

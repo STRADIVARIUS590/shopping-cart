@@ -73,11 +73,11 @@ public class CategoryController {
             if(category != null){
                 this.categoryService.delete(id);
             }
+            return ResponseEntity.ok(new ApiResponse("success", category));
         }catch(ResourceNotFoundException e) {
             return ResponseEntity.ok(new ApiResponse(e.getMessage(), null));
         }
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("error", HttpStatus.INTERNAL_SERVER_ERROR));
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("error", HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @PutMapping("/update/{id}")
