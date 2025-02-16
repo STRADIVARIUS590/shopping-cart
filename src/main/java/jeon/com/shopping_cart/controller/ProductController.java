@@ -136,6 +136,7 @@ public class ProductController {
         }
     }
 
+
     @GetMapping("by-brand")
     public ResponseEntity<ApiResponse> getByBrand(@PathVariable String name)
     {
