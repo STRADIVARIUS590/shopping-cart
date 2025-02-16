@@ -1,6 +1,5 @@
 package jeon.com.shopping_cart.service.product;
 
-import jeon.com.shopping_cart.exception.ProductNotFoundException;
 import jeon.com.shopping_cart.exception.ResourceNotFoundException;
 import jeon.com.shopping_cart.model.Category;
 import jeon.com.shopping_cart.model.Product;
@@ -98,12 +97,12 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
-        return this.productRepository.findByBrandName(brand);
+        return this.productRepository.findByBrand(brand);
     }
 
     @Override
     public List<Product> getProductByCategoryAndBrand(String category, String brand) {
-        return this.productRepository.findByCategoryAndBrand(category, brand);
+        return this.productRepository.findByCategoryNameAndBrand(category, brand);
     }
 
     @Override

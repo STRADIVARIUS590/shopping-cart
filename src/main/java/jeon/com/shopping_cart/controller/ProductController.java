@@ -1,5 +1,6 @@
 package jeon.com.shopping_cart.controller;
 
+import com.fasterxml.jackson.databind.introspect.BasicClassIntrospector;
 import jeon.com.shopping_cart.exception.ResourceNotFoundException;
 import jeon.com.shopping_cart.model.Product;
 import jeon.com.shopping_cart.request.AddProductRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("${api.prefix}/products")
 @RestController
@@ -62,7 +64,7 @@ public class ProductController {
         try {
             Product product = this.productService.update(product_request, id);
             return ResponseEntity.ok(new ApiResponse("Update success", product));
-        } catch (ResourceNotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.ok(new ApiResponse(e.getMessage(), null));
         }
     }
@@ -76,7 +78,7 @@ public class ProductController {
                 this.productService.delete(id);
             }
             return ResponseEntity.ok(new ApiResponse("Eliminado", product));
-        } catch (ResourceNotFoundException e) {
+        } catch (Exception e) {
             return ResponseEntity.ok(new ApiResponse(e.getMessage(), null));
         }
     }
@@ -137,7 +139,7 @@ public class ProductController {
     }
 
 
-    @GetMapping("by-brand")
+    @GetMapping("/by-brand")
     public ResponseEntity<ApiResponse> getByBrand(@PathVariable String name)
     {
         try {
@@ -148,6 +150,20 @@ public class ProductController {
             }
             return ResponseEntity.ok(new ApiResponse("Registros consultados correctamente", list));
         }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("count-by-brand-and-name")
+    public ResponseEntity<ApiResponse> countProducts(@RequestParam String brand, @RequestParam String name)
+    {
+        try {
+            Long count = this.productService.countProductsByBrandAndName(brand,name);
+            return ResponseEntity.ok(new ApiResponse("Registros cocsultados correctamente",
+                Map.of(
+                        "count", count
+                )));
+        }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
         }
     }
