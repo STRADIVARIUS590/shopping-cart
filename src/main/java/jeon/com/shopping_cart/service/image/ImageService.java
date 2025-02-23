@@ -46,9 +46,11 @@ public class ImageService implements IImageService {
         for(MultipartFile file: images)
         {
             try{
+                System.out.println(file.getContentType());
+                System.out.println(file.getOriginalFilename());
                 Image image = new Image();
                 image.setFileName(file.getOriginalFilename());
-                image.setFileName(file.getContentType());
+                image.setFileType(file.getContentType());
                 image.setImage(new SerialBlob(file.getBytes()));
                 image.setProduct(product);
 
@@ -60,9 +62,9 @@ public class ImageService implements IImageService {
                 savedImage.setUrl(downloadBasePath + savedImage.getId());
 
                 ImageDto imageDto = new ImageDto();
-                imageDto.setImageId(savedImage.getId());
-                imageDto.setImageName(savedImage.getFileName());
-                imageDto.setDownloadUrl(savedImage.getUrl());
+                imageDto.setId(savedImage.getId());
+                imageDto.setFileName(savedImage.getFileName());
+                imageDto.setUrl(savedImage.getUrl());
 
                 savedImagesDtos.add(imageDto);
 

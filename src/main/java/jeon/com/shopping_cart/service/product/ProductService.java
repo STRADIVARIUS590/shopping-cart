@@ -1,13 +1,18 @@
 package jeon.com.shopping_cart.service.product;
 
+import jeon.com.shopping_cart.dto.ImageDto;
+import jeon.com.shopping_cart.dto.ProductDto;
 import jeon.com.shopping_cart.exception.ResourceNotFoundException;
 import jeon.com.shopping_cart.model.Category;
+import jeon.com.shopping_cart.model.Image;
 import jeon.com.shopping_cart.model.Product;
 import jeon.com.shopping_cart.repository.ICategoryRepository;
+import jeon.com.shopping_cart.repository.IImageRepository;
 import jeon.com.shopping_cart.repository.IProductRepository;
 import jeon.com.shopping_cart.request.AddProductRequest;
 import jeon.com.shopping_cart.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +24,8 @@ public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;
     private final ICategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+    private final IImageRepository imageRepository;
 
     public Product add(AddProductRequest request)
     {
@@ -37,7 +44,8 @@ public class ProductService implements IProductService {
 
     private Product createProduct(AddProductRequest request, Category category)
     {
-        return new Product(
+
+        var p = new Product(
                 request.getName(),
                 request.getBrand(),
                 request.getDescription(),
@@ -45,6 +53,9 @@ public class ProductService implements IProductService {
                 request.getStock(),
                 category
         );
+
+
+        return p;
     }
 
     @Override
@@ -118,5 +129,24 @@ public class ProductService implements IProductService {
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
         return this.productRepository.countByBrandAndName(brand, name);
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> p)
+    {
+        return p.stream().map(this::convertToDto).toList();
+    }
+
+    @Override
+    public ProductDto convertToDto(Product p)
+    {
+        ProductDto productDto = modelMapper.map(p, ProductDto.class);
+        List<Image> images = this.imageRepository.findByProductId(p.getId());
+        List<ImageDto> imagedtos = images.stream()
+                        .map(image -> modelMapper
+                        .map(image, ImageDto.class))
+                        .toList();
+        productDto.setImages(imagedtos);
+        return productDto;
     }
 }

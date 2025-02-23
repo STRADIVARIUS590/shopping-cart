@@ -21,13 +21,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/${api.prefix}/images")
+@RequestMapping("${api.prefix}/images")
 @AllArgsConstructor
 public class ImageController {
 
     private final IImageService imageService;
 
-    @PostMapping(("/upload"))
+    @PostMapping("/upload")
     public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> images, @RequestParam int productId)
     {
         try {
@@ -41,7 +41,7 @@ public class ImageController {
     }
 
     @GetMapping("/download/{id}")
-    public  ResponseEntity<Resource> download(@RequestParam int id) throws SQLException {
+    public  ResponseEntity<Resource> download(@PathVariable int id) throws SQLException {
         Image image = this.imageService.find(id);
         ByteArrayResource resource = new ByteArrayResource(image.getImage().getBytes( 1 , (int) image.getImage().length()));
 

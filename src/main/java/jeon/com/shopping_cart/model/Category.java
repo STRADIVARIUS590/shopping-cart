@@ -1,5 +1,6 @@
 package jeon.com.shopping_cart.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +17,11 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-        private String name;
+    private int id;
+    private String name;
 
+
+    @JsonBackReference
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 

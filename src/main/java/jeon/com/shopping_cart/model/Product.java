@@ -1,10 +1,7 @@
 package jeon.com.shopping_cart.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.boot.autoconfigure.quartz.QuartzTransactionManager;
 
 import java.math.BigDecimal;
@@ -14,6 +11,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@ToString
+@AllArgsConstructor
 public class Product {
 
     @Id
@@ -33,5 +32,14 @@ public class Product {
     private List<Image> images;
 
     public Product(String name, String brand, String description, BigDecimal price, int stock, Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.brand = brand;
+        this.stock = stock;
+        this.category = category;
     }
+
+//    public Product(String name, String brand, String description, BigDecimal price, int stock, Category category) {
+//    }
 }

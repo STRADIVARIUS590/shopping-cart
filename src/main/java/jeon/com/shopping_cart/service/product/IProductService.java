@@ -1,5 +1,6 @@
 package jeon.com.shopping_cart.service.product;
 
+import jeon.com.shopping_cart.dto.ProductDto;
 import jeon.com.shopping_cart.model.Product;
 import jeon.com.shopping_cart.request.AddProductRequest;
 import jeon.com.shopping_cart.request.ProductUpdateRequest;
@@ -25,5 +26,6 @@ public interface IProductService {
     List<Product> getProductsByName(String name);
     List<Product> getProductByBrandAndName(String brand, String name);
     Long countProductsByBrandAndName(String brand, String name);
-
+    List<ProductDto> getConvertedProducts(List<Product> p);
+    ProductDto convertToDto(Product p);
 }
