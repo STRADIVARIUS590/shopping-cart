@@ -1,6 +1,7 @@
 package jeon.com.shopping_cart.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Category {
 
 
     @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
